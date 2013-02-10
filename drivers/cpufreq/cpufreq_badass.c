@@ -42,6 +42,8 @@
 #define MIN_FREQUENCY_UP_THRESHOLD		(11)
 #define MAX_FREQUENCY_UP_THRESHOLD		(100)
 #define MIN_FREQUENCY_DOWN_DIFFERENTIAL		(1)
+#define CPU_FREQ_PHASE_2		CONFIG_CPU_FREQ_GOV_BADASS_2_PHASE_FREQ
+#define CPU_FREQ_PHASE_3		CONFIG_CPU_FREQ_GOV_BADASS_3_PHASE_FREQ			
 
 /* Phase configurables */
 #define MAX_IDLE_COUNTER			160
@@ -171,12 +173,12 @@ static struct bds_tuners {
 	.ignore_nice = 0,
 	.powersave_bias = 0,
 #ifdef CONFIG_CPU_FREQ_GOV_BADASS_2_PHASE
-	.two_phase_freq = 0,
+	.two_phase_freq = CPU_FREQ_PHASE_2,
 	.semi_busy_threshold = SEMI_BUSY_THRESHOLD,
 	.semi_busy_clr_threshold = SEMI_BUSY_CLR_THRESHOLD,
 #endif
 #ifdef CONFIG_CPU_FREQ_GOV_BADASS_3_PHASE
-	.three_phase_freq = 0,
+	.three_phase_freq = CPU_FREQ_PHASE_3,
 	.busy_threshold = BUSY_THRESHOLD,
 	.busy_clr_threshold = BUSY_CLR_THRESHOLD,
 #endif
