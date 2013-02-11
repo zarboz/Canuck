@@ -23,6 +23,8 @@ obj-$(CONFIG_CPU_FREQ_GOV_SavagedZen)   += cpufreq_savagedzen.o
 obj-$(CONFIG_CPU_FREQ_GOV_INTELLIDEMAND)+= cpufreq_intellidemand.o
 obj-$(CONFIG_CPU_FREQ_GOV_BRAZILIANWAX) += cpufreq_brazilianwax.o
 obj-$(CONFIG_CPU_FREQ_GOV_BADASS) 	+= cpufreq_badass.o
+obj-$(CONFIG_CPU_FREQ_GOV_WHEATLEY) 	+= cpufreq_wheatley.o
+obj-$(CONFIG_CPU_FREQ_GOV_PEGASUSQ) 	+= cpufreq_pegasusq.o
 
 # CPUfreq cross-arch helpers
 obj-$(CONFIG_CPU_FREQ_TABLE)		+= freq_table.o
