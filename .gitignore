@@ -14,6 +14,7 @@
 *.o.*
 *.a
 *.s
+*.S
 *.ko
 *.so
 *.so.dbg
@@ -32,6 +33,10 @@ modules.builtin
 *.lzo
 *.patch
 *.gcno
+CompileLog
+build.sh
+*.rej
+*.orig
 
 #
 # Top-level generic files
