@@ -398,6 +398,7 @@ static int __cpuinit msm_cpufreq_init(struct cpufreq_policy *policy)
 extern bool lmf_screen_state;
 #endif
 
+#ifdef CONFIG_HAS_EARLYSUSPEND
 static void msm_cpu_early_suspend(struct early_suspend *h)
 {
 #ifdef CONFIG_CPUFREQ_LIMIT_MAX_FREQ
@@ -424,29 +425,34 @@ static void msm_cpu_late_resume(struct early_suspend *h)
 		}
 #endif
 }
+#endif
 
+#ifdef CONFIG_HAS_EARLYSUSPEND
 static struct early_suspend msm_cpu_early_suspend_handler = {
 	.level = EARLY_SUSPEND_LEVEL_BLANK_SCREEN,
 	.suspend = msm_cpu_early_suspend,
 	.resume = msm_cpu_late_resume,
 };
+#endif
 
 static int __cpuinit msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 		unsigned long action, void *hcpu)
 {
 	unsigned int cpu = (unsigned long)hcpu;
-	int rc;
 
 	switch (action & ~CPU_TASKS_FROZEN) {
 	case CPU_ONLINE:
+	case CPU_ONLINE_FROZEN:
 		per_cpu(cpufreq_suspend, cpu).device_suspended = 0;
 		break;
 	case CPU_DOWN_PREPARE:
+	case CPU_DOWN_PREPARE_FROZEN:
 		mutex_lock(&per_cpu(cpufreq_suspend, cpu).suspend_mutex);
 		per_cpu(cpufreq_suspend, cpu).device_suspended = 1;
 		mutex_unlock(&per_cpu(cpufreq_suspend, cpu).suspend_mutex);
 		break;
 	case CPU_DOWN_FAILED:
+	case CPU_DOWN_FAILED_FROZEN:
 		per_cpu(cpufreq_suspend, cpu).device_suspended = 0;
 		break;
 	/*
@@ -462,8 +468,7 @@ static int __cpuinit msm_cpufreq_cpu_callback(struct notifier_block *nfb,
 		break;
 	case CPU_UP_PREPARE:
 		if (is_clk) {
-			rc = clk_prepare_enable(cpu_clk[cpu]);
-			if (rc < 0)
+			if (clk_prepare_enable(cpu_clk[cpu]) < 0)
 				return NOTIFY_BAD;
 			update_l2_bw(&cpu);
 		}
