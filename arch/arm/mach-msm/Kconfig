@@ -2596,6 +2596,14 @@ config MSM_MPDEC_INPUTBOOST_CPUMIN
 	help
 	  This pushes the cpu min speed to predefined values on input events.
 
+config MSM_MPDEC_QUAD_CORE
+	bool "Enable Quad-Core Support for MSM_MPDEC"
+	depends on MSM_MPDEC
+	default n
+	help
+	  This enables Quad Core Support for MSM_MPDEC
+	  If not chosen Dual Core will be selected
+
 config MSM_DCVS
 	bool "Use MSM DCVS for CPU/GPU Frequency control"
 	depends on MSM_SCM && MSM_MPDECISION && !MSM_MPDEC
