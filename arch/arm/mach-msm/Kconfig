@@ -2604,6 +2604,10 @@ config MSM_MPDEC_QUAD_CORE
 	  This enables Quad Core Support for MSM_MPDEC
 	  If not chosen Dual Core will be selected
 
+config CMDLINE_OPTIONS
+	bool "Command Line Interfacing"
+	default y
+
 config MSM_DCVS
 	bool "Use MSM DCVS for CPU/GPU Frequency control"
 	depends on MSM_SCM && MSM_MPDECISION && !MSM_MPDEC
