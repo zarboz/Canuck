@@ -158,7 +158,7 @@ static irqreturn_t synaptics_irq_thread(int irq, void *ptr);
 
 extern unsigned int get_tamper_sf(void);
 
-#if defined (CONFIG_BLN) || (CONFIG_TOUCHSCREEN_SYNAPTICS_SWEEP2WAKE)
+#ifdef CONFIG_BLN
 bool scr_suspended = false, exec_count = true;
 extern uint8_t touchscreen_is_on(void) {
 	if (scr_suspended == false) {
@@ -180,7 +180,15 @@ cputime64_t dt2w_time[2] = {0, 0};
 bool scr_on_touch = false, barrier[2] = {false, false};
 static struct input_dev * sweep2wake_pwrdev;
 static DEFINE_MUTEX(pwrkeyworklock);
-
+#ifndef CONFIG_BLN
+bool scr_suspended = false, exec_count = true;
+extern uint8_t touchscreen_is_on(void) {
+	if (scr_suspended == false) {
+		return 1;
+	}
+	return 0;
+}
+#endif
 extern void sweep2wake_setdev(struct input_dev * input_device) {
 	sweep2wake_pwrdev = input_device;
 	return;
