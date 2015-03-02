@@ -1778,6 +1778,9 @@ int qseecom_send_command(struct qseecom_handle *handle, void *send_buf,
 	if (__validate_send_cmd_inputs(data, &req))
 		return -EINVAL;
 
+	if (__validate_send_cmd_inputs(data, &req))
+		return -EINVAL;
+
 	mutex_lock(&app_access_lock);
 	atomic_inc(&data->ioctl_count);
 
