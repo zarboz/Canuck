@@ -98,7 +98,7 @@ static struct msm_mpdec_tuners {
 #endif
 };
 
-#ifndef CONFIG_MSM_MPDEC_QUAD_CORE
+#if NR_CPUS==2
 static unsigned int NwNs_Threshold[8] = {12, 0, 0, 7, 25, 10, 0, 18};
 static unsigned int TwTs_Threshold[8] = {140, 0, 0, 190, 140, 190, 0, 190};
 #else
@@ -188,7 +188,7 @@ static void mpdec_cpu_down(int cpu) {
 		per_cpu(msm_mpdec_cpudata, cpu).online = false;
 		per_cpu(msm_mpdec_cpudata, cpu).on_time_total += on_time;
 		per_cpu(msm_mpdec_cpudata, cpu).times_cpu_unplugged += 1;
-#ifndef CONFIG_MSM_MPDEC_QUAD_CORE
+#if NR_CPUS==2
 		pr_info(MPDEC_TAG"CPU[%d] on->off | Mask=[%d%d] | time online: %llu\n",
 			cpu, cpu_online(0), cpu_online(1), on_time);
 #else
@@ -256,7 +256,7 @@ static int mp_decision(void) {
 
 	last_time = ktime_to_ms(ktime_get());
 #if DEBUG
-#ifndef CONFIG_MSM_MPDEC_QUAD_CORE
+#if NR_CPUS==2
 	pr_info(MPDEC_TAG"[DEBUG] rq: %u, new_state: %i | Mask=[%d%d]\n",
 			rq_depth, new_state, cpu_online(0), cpu_online(1));
 #else
@@ -619,7 +619,7 @@ static void msm_mpdec_resume(struct work_struct * msm_mpdec_suspend_work) {
 					mpdec_cpu_down(cpu);
 			}
 		}
-#ifndef CONFIG_MSM_MPDEC_QUAD_CORE
+#if NR_CPUS==2
 		pr_info(MPDEC_TAG"Screen -> on. Activated mpdecision. | Mask=[%d%d]\n",
 				cpu_online(0), cpu_online(1));
 #else
